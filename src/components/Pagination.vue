@@ -7,8 +7,8 @@
             <a-pagination
                 show-quick-jumper
                 v-model:current="current"
-                :total="500"
-                @change="onChange"
+                :total="dataTotal"
+                @change="onPaginationToggle"
             />
         </div>
     </div>
@@ -16,17 +16,17 @@
 <script>
 import { defineComponent, ref } from "vue";
 export default defineComponent({
-    setup() {
+    props: {
+        dataTotal: Number,
+    },
+    setup(props, context) {
         const current = ref(1);
-        const dataTotal = ref(12);
-        const onChange = (pageNumber) => {
-            console.log("Page: ", pageNumber);
-        };
+        const onPaginationToggle = (pageIdx) =>
+            context.emit("on-pagination-togle", pageIdx);
 
         return {
             current,
-            onChange,
-            dataTotal,
+            onPaginationToggle,
         };
     },
 });
